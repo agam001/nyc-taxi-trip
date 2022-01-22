@@ -1,13 +1,14 @@
-sc.install_pypi_package("pandas==0.25.1") 
 from pyspark.sql.types import StructType,StructField,DoubleType,IntegerType
 from pyspark.sql import SparkSession
 
 spark = SparkSession \
     .builder \
     .getOrCreate()
-    
+
+sc.install_pypi_package("pandas==0.25.1") 
+
 nyc_zip_sp = spark.read.option("header",True).csv("s3://nyc-analysis/zips.csv")
-#nyc_zip_sp.show()
+
 df_nyc=nyc_zip_sp.select(nyc_zip_sp['ZIP Codes'].cast("int"), 
                          nyc_zip_sp['lat'].cast("float"),        
                          nyc_zip_sp['long'].cast("float"))
